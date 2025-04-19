@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Server</title>
+</head>
+<body>
+    <form action="http://10.2.39.172:3000/" method="POST">
+        <input type="text" name="message" placeholder="Nhập dữ liệu..." />
+        <button type="submit">Gửi</button>
+    </form>
+
+    <hr />
+
+    <button id="getLogs">Lấy dữ liệu</button>
+    <div id="logsContainer"></div>
+
+    <button id="convertToCSV">Chuyển đổi sang CSV</button>
+    <div id="csvContainer"></div>
+
+    <script>
+        document.getElementById("getLogs").addEventListener("click", (event) => {
+            // Ngăn chặn hành vi mặc định (nếu có)
+            event.preventDefault();
+
+            fetch("http://10.2.39.172:3000/")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const logsContainer = document.getElementById("logsContainer");
+                    logsContainer.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                })
+                .catch(error => {
+                    console.error("There was a problem with the fetch operation:", error);
+                    const logsContainer = document.getElementById("logsContainer");
+                    logsContainer.innerHTML = `<p style="color: red;">Không thể lấy dữ liệu: ${error.message}</p>`;
+                });
+        });
+
+        document.getElementById("convertToCSV").addEventListener("click", () => {
+            fetch("http://10.2.39.172:3000/") // Đảm bảo URL server đúng
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Chuyển đổi JSON thành CSV
+                    const csvData = [];
+                    for (const ip in data) {
+                        for (const date in data[ip]) {
+                            csvData.push(...data[ip][date]);
+                        }
+                    }
+
+                    // Loại bỏ các ký tự không mong muốn và hiển thị kết quả CSV
+                    const cleanedCSV = csvData.map(item => item.toString().replace(/[{}[\]]/g, ""));
+                    const csvContainer = document.getElementById("csvContainer");
+                    csvContainer.innerHTML = `<pre>${cleanedCSV.join("\n")}</pre>`;
+                })
+                .catch(error => {
+                    console.error("There was a problem with the fetch operation:", error);
+                    const csvContainer = document.getElementById("csvContainer");
+                    csvContainer.innerHTML = `<p style="color: red;">Không thể chuyển đổi dữ liệu: ${error.message}</p>`;
+                });
+        });
+    </script>
+</body>
+</html>
+    

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Logs Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Server Logs Viewer</h1>
+    <form id="logForm">
+        <label for="uid">User ID (UID):</label>
+        <input type="text" id="uid" name="uid" placeholder="Enter UID" required>
+        
+        <label for="date">Date (YYYY-MM-DD):</label>
+        <input type="date" id="date" name="date">
+        
+        <button type="submit">Fetch Logs</button>
+    </form>
+    <h2>Logs:</h2>
+    <pre id="logsOutput">No logs fetched yet.</pre>
+
+    <script>
+        const form = document.getElementById('logForm');
+        const logsOutput = document.getElementById('logsOutput');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const uid = document.getElementById('uid').value;
+            const date = document.getElementById('date').value;
+            const url = new URL('http://localhost:3800');
+            if (date) {
+                url.searchParams.append('date', date);
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apiKey': 'your-api-key-here', // Add API key to header
+                        'uid': uid // Add UID to header
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} ${response.statusText}`);
+                }
+                const data = await response.json();
+                logsOutput.textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                logsOutput.textContent = `Failed to fetch logs: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
