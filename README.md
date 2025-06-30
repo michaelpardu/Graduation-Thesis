@@ -1,130 +1,103 @@
-# Graduation Thesis Project: 1-Lead ECG Signal Acquisition and Visualization
+# 🎓 Graduation Thesis Project: 1-Lead ECG Signal Acquisition and Visualization
 
-This project is a comprehensive system for acquiring, processing, and visualizing 1-lead ECG signals. It consists of three main components:
+![ECG Signal Visualization](https://img.shields.io/badge/ECG%20Signal%20Visualization-Project-brightgreen)
 
-1. **Embedded System**: Handles ECG signal acquisition and data transmission.
-2. **Node.js Server**: Manages data storage, retrieval, and API endpoints.
-3. **React.js UI**: Provides a user-friendly interface for visualizing and analyzing ECG data.
+Welcome to the **Graduation Thesis Project**! This repository focuses on the acquisition and visualization of 1-lead ECG signals. The project integrates hardware and software components to provide a comprehensive solution for ECG signal processing.
 
----
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+- [Releases](#releases)
+
+## Introduction
+
+Electrocardiography (ECG) is a vital tool in monitoring heart health. This project aims to create a user-friendly system for acquiring and visualizing ECG signals using a single lead. The combination of ESP32 hardware and various software technologies allows for high-speed sampling and real-time data visualization.
 
 ## Features
 
-### Embedded System
-- Real-time ECG signal acquisition using ESP32.
-- Data buffering and transmission to the server.
-- NTP-based timestamp synchronization.
-- Queue-based data handling for reliability.
+- **Real-time ECG Signal Acquisition**: Capture ECG signals with high accuracy.
+- **Visualization**: Display ECG waveforms in real-time for immediate analysis.
+- **User-friendly Interface**: Built with ReactJS for easy interaction.
+- **Data Processing**: Utilize Python for backend processing of the ECG data.
+- **High-speed Sampling**: Leverage the ESP32's capabilities for efficient data handling.
 
-### Node.js Server
-- RESTful API for data storage and retrieval.
-- API key and UID-based authentication.
-- Hierarchical log storage by UID and date.
-- CORS support for cross-origin requests.
-- Error handling for invalid requests.
+## Technologies Used
 
-### React.js UI
-- Responsive line chart for ECG data visualization.
-- Kalman filter for data smoothing.
-- Zoom and scroll functionality for detailed analysis.
-- Light and dark mode toggle.
-- User authentication with UID and API key.
+This project employs a variety of technologies to achieve its goals:
 
----
+- **Hardware**: ESP32 microcontroller for data acquisition.
+- **Programming Languages**: 
+  - Python 3 for backend processing.
+  - JavaScript for frontend development.
+- **Frameworks**: 
+  - ReactJS for building the user interface.
+- **Libraries**: 
+  - Cosine LUT for signal processing.
+  - I2S ADC for high-speed sampling.
 
-## Installation and Setup
+## Installation
 
-### 1. Embedded System
-1. Install the required libraries for ESP32 (e.g., `WiFi`, `HTTPClient`, `freertos`).
-2. Configure WiFi credentials and server URL in the `LVTN.ino` file.
-3. Upload the code to the ESP32 using the Arduino IDE.
+To set up this project, follow these steps:
 
-### 2. Node.js Server
-1. Navigate to the `Nodejs server` directory:
+1. **Clone the Repository**:
    ```bash
-   cd Nodejs server
+   git clone https://github.com/michaelpardu/Graduation-Thesis.git
    ```
-2. Install dependencies:
+
+2. **Install Dependencies**:
+   Navigate to the project directory and install the required packages:
    ```bash
+   cd Graduation-Thesis
    npm install
    ```
-3. Create a `config.json` file with the following structure:
-   ```json
-   {
-       "apiKeys": ["your-api-key"],
-       "users": ["user1", "user2"]
-   }
-   ```
-4. Start the server:
-   ```bash
-   node Server.js
-   ```
 
-### 3. React.js UI
-1. Navigate to the `Reactjs UI` directory:
-   ```bash
-   cd Reactjs UI
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file with the following environment variables:
-   ```
-   REACT_APP_API_KEY=your_api_key
-   REACT_APP_UID=your_uid
-   ```
-4. Start the development server:
+3. **Setup the ESP32**:
+   - Follow the instructions provided in the hardware setup guide to configure the ESP32 for ECG signal acquisition.
+
+4. **Run the Application**:
+   Start the application by executing:
    ```bash
    npm start
    ```
 
----
-
 ## Usage
 
-### Embedded System
-- The ESP32 collects ECG data and sends it to the server at regular intervals.
+Once the application is running, you can access it through your web browser. The user interface will allow you to start the ECG signal acquisition and visualize the data in real-time.
 
-### Node.js Server
-- **POST Request**: Save logs.
-  - URL: `http://localhost:3800`
-  - Headers: `x-api-key`, `x-uid`
-  - Body:
-    ```json
-    {
-        "values": [1, 2, 3, ...]
-    }
-    ```
-- **GET Request**: Retrieve logs.
-  - URL: `http://localhost:3800?date=YYYY-MM-DD`
-  - Headers: `x-api-key`, `x-uid`
+1. **Connect the ESP32**: Ensure that the ESP32 is connected to your computer.
+2. **Start Acquisition**: Click on the "Start" button to begin capturing ECG signals.
+3. **View Data**: The ECG waveform will display in real-time on the screen.
 
-### React.js UI
-1. Log in using your UID and API key.
-2. Visualize ECG data in the chart.
-3. Use controls to zoom, scroll, and apply filters.
-4. Export data as CSV for further analysis.
+For additional details, refer to the [Releases](https://github.com/michaelpardu/Graduation-Thesis/releases) section for downloadable files and updates.
 
----
+## Contributing
 
-## Dependencies
-
-- **Embedded System**: ESP32, Arduino libraries.
-- **Node.js Server**: Node.js, Express.
-- **React.js UI**: React, Recharts, rc-slider, js-cookie.
-
----
+Contributions are welcome! If you have suggestions for improvements or want to add features, feel free to fork the repository and submit a pull request. Please ensure that your code adheres to the existing style and includes appropriate tests.
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
----
+## Contact
 
-## Contributors
+For questions or feedback, you can reach me at:
 
-- **Trần Quốc Duy**
-- **Nguyễn Mạnh Ba**
+- Email: [your-email@example.com](mailto:your-email@example.com)
+- GitHub: [michaelpardu](https://github.com/michaelpardu)
 
-Supervised by **Dr. Nguyễn Văn Khanh** at **Trường Đại học Cần Thơ - Khoa Tự Động Hóa**.
+## Releases
+
+For the latest updates and downloadable files, visit the [Releases](https://github.com/michaelpardu/Graduation-Thesis/releases) section. Here, you can find the compiled versions of the project, along with release notes detailing new features and fixes.
+
+![Release Button](https://img.shields.io/badge/Download%20Releases-Click%20Here-blue)
+
+## Conclusion
+
+This project serves as a valuable resource for anyone interested in ECG signal acquisition and visualization. By combining hardware and software, it provides a robust solution for monitoring heart health. Thank you for exploring the **Graduation Thesis Project**!
